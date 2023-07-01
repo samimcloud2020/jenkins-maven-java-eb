@@ -228,7 +228,7 @@ pipeline {
                 withAWS(credentials: 'aws', region: 'us-east-1') {
                   script {
                     sh 'aws configure set region us-east-1'
-                    sh 'aws elasticbeanstalk create-application-version --application-name $AWS_EB_APP_NAME --version-label $AWS_EB_APP_VERSION --source-bundle S3Bucket=$BUCKET,S3Key=MavenTutorial-"${ARTVERSION}".war'
+                    sh 'aws elasticbeanstalk create-application-version --application-name $AWS_EB_APP_NAME --version-label $AWS_EB_APP_VERSION --source-bundle S3Bucket=$BUCKET,S3Key=samimapp-"${ARTVERSION}".war'
                     sh 'aws elasticbeanstalk update-environment --application-name $AWS_EB_APP_NAME --environment-name $AWS_EB_ENVIRONMENT --version-label $AWS_EB_APP_VERSION'
                 }
             }
