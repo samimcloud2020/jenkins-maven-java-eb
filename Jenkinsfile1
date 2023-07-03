@@ -2,7 +2,7 @@ pipeline {
   agent {
     docker {
         image 'maven:3.9.0-eclipse-temurin-11'
-        label 'maven1'
+        label 'slave1'
         args  '-v /tmp:/tmp'
     }
 } 
