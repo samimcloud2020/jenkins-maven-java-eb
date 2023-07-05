@@ -1,0 +1,81 @@
+pipeline {
+  agent {
+    node {
+        label 'slave1'
+        customWorkspace '/home/ubuntu/custom'
+    }
+}
+  
+
+     environment {
+        AWS_EB_APP_NAME = 'app1'
+        AWS_EB_ENVIRONMENT = 'App1-env-1'
+        AWS_EB_APP_VERSION = "${BUILD_ID}"
+        ARTVERSION = "${env.BUILD_ID}"
+        CREDENTIALS_ID = 'multi-k8s' 
+	NEXUS_VERSION = "nexus3"
+        NEXUS_PROTOCOL = "http"
+        NEXUS_URL = "10.5.0.4:8081"
+        NEXUS_REPOSITORY = "maven-releases"
+	NEXUS_REPO_ID = "maven-releases"
+	NEXUS_CREDENTIAL_ID = "nexus3"
+	AWS_REGION = "us-east-1"
+	ECR_REGISTRY_ID = "291222035571.dkr.ecr.us-east-1.amazonaws.com/samim-repo1"
+	EKS_CLUSTER_NAME1 = "cluster3333"
+	EKS_CLUSTER_NAME2 = "cluster3334"
+     
+        BUCKET = "somesh123456"     
+         
+    }
+ stages{
+        agent {
+  	docker {
+        image 'maven:3.9.0-eclipse-temurin-11'
+        label 'slave1'          // label of agent
+        args  '-v /tmp:/tmp'    // docker run command on slave1 with volume args and at last docker stop and docker rm
+    }
+} 
+        stage('BUILD'){
+          agent {
+  	docker {
+        image 'maven:3.9.0-eclipse-temurin-11'
+        label 'slave1'          // label of agent
+        args  '-v /tmp:/tmp'    // docker run command on slave1 with volume args and at last docker stop and docker rm
+    }
+} 
+            steps {
+                sh 'mvn -U clean install'   //mvn clean install -DskipTests
+            }
+            post {
+                success {
+                    echo 'Now Archiving...'
+                    archiveArtifacts artifacts: '**/target/*.war'
+		    }
+            }
+        }
+	 stage('UNIT TEST'){
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+	    stage('INTEGRATION TEST'){
+            steps {
+                sh 'mvn verify -DskipUnitTests'
+            }
+        }
+		
+        stage ('CODE ANALYSIS WITH CHECKSTYLE'){
+            steps {
+                sh 'mvn checkstyle:checkstyle'
+            }
+            post {
+                success {
+                    echo 'Generated Analysis Result'
+                }
+            }
+        }
+	           
+     
+ }
+}
