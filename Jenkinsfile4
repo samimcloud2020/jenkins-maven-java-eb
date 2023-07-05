@@ -28,13 +28,7 @@ pipeline {
          
     }
  stages{
-        agent {
-  	docker {
-        image 'maven:3.9.0-eclipse-temurin-11'
-        label 'slave1'          // label of agent
-        args  '-v /tmp:/tmp'    // docker run command on slave1 with volume args and at last docker stop and docker rm
-    }
-} 
+        
         stage('BUILD'){
           agent {
   	docker {
@@ -54,18 +48,39 @@ pipeline {
             }
         }
 	 stage('UNIT TEST'){
+		agent {
+  	docker {
+        image 'maven:3.9.0-eclipse-temurin-11'
+        label 'slave1'          // label of agent
+        args  '-v /tmp:/tmp'    // docker run command on slave1 with volume args and at last docker stop and docker rm
+    }
+} 
             steps {
                 sh 'mvn test'
             }
         }
 
 	    stage('INTEGRATION TEST'){
+		agent {
+  	docker {
+        image 'maven:3.9.0-eclipse-temurin-11'
+        label 'slave1'          // label of agent
+        args  '-v /tmp:/tmp'    // docker run command on slave1 with volume args and at last docker stop and docker rm
+    }
+} 
             steps {
                 sh 'mvn verify -DskipUnitTests'
             }
         }
 		
         stage ('CODE ANALYSIS WITH CHECKSTYLE'){
+		agent {
+  	docker {
+        image 'maven:3.9.0-eclipse-temurin-11'
+        label 'slave1'          // label of agent
+        args  '-v /tmp:/tmp'    // docker run command on slave1 with volume args and at last docker stop and docker rm
+    }
+} 
             steps {
                 sh 'mvn checkstyle:checkstyle'
             }
