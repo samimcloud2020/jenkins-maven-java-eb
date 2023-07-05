@@ -2,7 +2,7 @@ pipeline {
    agent { 
         label {
             label 'slave1'
-            customWorkspace "/home/ubuntu/workspace/ReleaseBuild/${BUILD_NUMBER}/"
+            customWorkspace "/home/ubuntu/workspace/ReleaseBuild/${BUILD_NUMBER}/"  // you customize custom workspace as per need
         }
     }
   
