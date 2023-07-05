@@ -105,7 +105,7 @@ pipeline {
         		filename 'Dockerfile.build'
         		dir 'build'
         		label 'slave1'
-        		additionalBuildArgs  '--build-arg version=1.0.0'
+        		additionalBuildArgs  '--build-arg version=1.0.2'
         		args '-v /tmp:/tmp'
     			}
 		}
@@ -279,4 +279,4 @@ pipeline {
       }
  }
 }
-}
+
