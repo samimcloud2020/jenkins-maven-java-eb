@@ -64,7 +64,7 @@ pipeline {
             }
         }
 
-	    stage('INTEGRATION TEST'){
+   stage('INTEGRATION TEST'){
         agent {
             docker {
               image 'maven:3.9.0-eclipse-temurin-11'
@@ -98,8 +98,7 @@ pipeline {
         }
 	           
      	 stage('CODE ANALYSIS with SONARQUBE') {
-          
-		
+          	
             agent {
                  // Equivalent to "docker build -f Dockerfile.build --build-arg version=1.0.2 ./build/
                 dockerfile {
@@ -279,4 +278,5 @@ pipeline {
         }
       }
  }
+}
 }
