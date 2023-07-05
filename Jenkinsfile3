@@ -48,7 +48,17 @@ pipeline {
             }
         }
 	 stage('UNIT TEST'){
-     
+           docker {
+              image 'maven:3.9.0-eclipse-temurin-11'
+              label 'slave1'          // label of agent
+              args  '-v /tmp:/tmp'    // docker run command on slave1 with volume args and at last docker stop and docker rm
+              reuseNode true  //When reuseNode set to true: no new workspace will be created, and current workspace from current 
+                              //agent will be mounted into container, and container will be started at the same node, so whole data will be synchronized.
+                              //$ docker run -t -d -u 1000:1000 -v /tmp:/tmp -w /home/ubuntu/workspace/d -v 
+                              //$ docker stop --time=1 2bfb0722a5d3eac2039cf63a9700aadc33c9b8fec2d037b27430c166eb132eb9
+                              //$ docker rm -f --volumes 2bfb0722a5d3eac2039cf63a9700aadc33c9b8fec2d037b27430c166eb132eb9
+            }
+        } 
             steps {
                 sh 'mvn test'
             }
