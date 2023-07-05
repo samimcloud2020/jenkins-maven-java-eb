@@ -1,10 +1,10 @@
 pipeline {
-  agent {
-    node {
-        label 'slave1'
-        customWorkspace '/home/ubuntu/custom'
+   agent { 
+        label {
+            label 'slave1'
+            customWorkspace "/home/ubuntu/workspace/ReleaseBuild/${BUILD_NUMBER}/"
+        }
     }
-}
   
 
      environment {
