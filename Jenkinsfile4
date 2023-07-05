@@ -3,6 +3,9 @@ pipeline {
         label {
             label 'slave1'
             customWorkspace "/home/ubuntu/workspace/ReleaseBuild/${BUILD_NUMBER}/"  // you customize custom workspace as per need
+                                                                                    //This option is valid for node, docker, and dockerfile.
+
+reuseNode 
         }
     }
   
